@@ -1,13 +1,81 @@
 import time
 import random
 import os
-
+import ctypes
 
 #글자 한글자씩 출력해주는 함수
 def print_slow(text):
     for char in text:
         print(char, end='', flush=True)
         time.sleep(0.08)
+
+#시간 함수1
+class COORD(ctypes.Structure):
+    _fields_ = [("X", ctypes.c_short), ("Y", ctypes.c_short)]
+
+class SMALL_RECT(ctypes.Structure):
+    _fields_ = [("Left", ctypes.c_short),
+                ("Top", ctypes.c_short),
+                ("Right", ctypes.c_short),
+                ("Bottom", ctypes.c_short)]
+
+def set_console_size(width, height):
+    STD_OUTPUT_HANDLE = -11
+    handle = ctypes.windll.kernel32.GetStdHandle(STD_OUTPUT_HANDLE)
+    if handle != -1:
+        ctypes.windll.kernel32.SetConsoleScreenBufferSize(handle, COORD(width, height))
+        rect = SMALL_RECT(0, 0, width - 1, height - 1)
+        ctypes.windll.kernel32.SetConsoleWindowInfo(handle, True, ctypes.byref(rect))
+
+#시간 함수2
+def move_cursor(x,y):
+    os.system(f"printf '\033[{y};{x}H'")
+    
+def print_at(x,y, text):
+    move_cursor(x, y)
+    print(text)
+
+#색깔 출력 함수
+def color_print(text, color):
+    colors = {
+        'black': '\033[30m',
+        'red': '\033[31m',
+        'green': '\033[32m',
+        'yellow': '\033[33m',
+        'blue': '\033[34m',
+        'magenta': '\033[35m',
+        'cyan': '\033[36m',
+        'white': '\033[37m',
+        'reset': '\033[0m'
+    }
+    color_code = colors.get(color.lower())
+    if color_code:
+        print(color_code + text + colors['reset'])
+    else:
+        print("Invalid color")
+
+#색입힌글씨하나씩출력     
+def color_print_slow(text, color):
+    colors = {
+        'black': '\033[30m',
+        'red': '\033[31m',
+        'green': '\033[32m',
+        'yellow': '\033[33m',
+        'blue': '\033[34m',
+        'magenta': '\033[35m',  
+        'cyan': '\033[36m',
+        'white': '\033[37m',
+        'reset': '\033[0m'
+    }
+    color_code = colors.get(color.lower())
+    if color_code:
+        for char in text:
+            print(color_code + char, end='', flush=True)
+            time.sleep(0.1)
+        print(colors['reset'])
+    else:
+        print("Invalid color")
+
 
 #일정 돌아가는 개월
 total_select_month = 0
@@ -33,11 +101,15 @@ scheduleList = []
 def schedule_UpDown():
     global total_brain, total_code, total_health, total_money, total_stress, scheduleList, total_select_month
     os.system('cls')
+    def print_slow(text):
+        for char in text:
+            print(char, end='', flush=True)
+            time.sleep(0.04)
     for i in range(0,3):
         if scheduleList[i] == '알바 가기':
             for week in range(1,5):
                 m, h, s = week_UpDown1()
-                print_slow(f"{week}주째...  알바를 하면서...  소지금이 {m}원 올랐다!  체력이{h} 올랐다!  스트레스가 {-s} 내렸다!  \n\n")
+                print_slow(f"{week}주째...  알바를 하면서...  소지금이 {m}원 올랐다!  체력이{h} 올랐다!  스트레스가 {s} 올랐다!  \n\n")
 
         elif scheduleList[i] == '운동 하기':
             for week in range(1,5):
@@ -57,11 +129,13 @@ def schedule_UpDown():
         elif scheduleList[i] == '재밌게 놀기':
             for week in range(1,5):
                 m, h, s = week_UpDown5()
-                print_slow(f"{week}주째...  놀면서...  소지금이 {m}원 내렸다!  체력이 {h} 올랐다!  스트레스가 {-s} 내렸다!\n\n")
+                print_slow(f"{week}주째...  놀면서...  소지금이 {-m}원 내렸다!  체력이 {h} 올랐다!  스트레스가 {-s} 내렸다!\n\n")
 
 
         #일정을 총 몇달 돌렸는지 확인하는 변수
         total_select_month += 1
+    
+    time.sleep(4)
 
     #메인 화면으로 돌아가기 
     main_menu()
@@ -335,6 +409,9 @@ def start_game():
     print("♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡■♡♡♡♡♡♡♡♡♡♡♡♡")                                                                          
     print_slow("     ver. 교수님과의 러브러브 만남\n")
     
+    if __name__ == "__main__":
+        set_console_size(100, 50)
+
     #인트로
 def start_intro():
     os.system('cls')
@@ -514,6 +591,7 @@ def professor1():
                 like1 = proheart1()
                 total_proheart1 -= like1
                 print(f"김교수님의 호감도가 {like1} 내려가서 {total_proheart1}가 되었다 (┬┬﹏┬┬) \n")
+                time.sleep(1)
                 main_menu()
             elif choice == '2':
                 print_slow("\"아이고 그렇구나 잠시만, 여기 앉으면 돼\"\n")
@@ -521,13 +599,16 @@ def professor1():
                 like1 = proheart1()
                 total_proheart1 += like1
                 print(f"박교수님의 호감도가 {like1} 올라서 {total_proheart1}가 되었다 !")
+                time.sleep(1)
                 main_menu()
             else:
                 print_slow("진짜 그럴거에요?\n")
+                time.sleep(1)
                 main_menu()
         
     elif total_brain <= 10:
         print_slow("박소영 교수님은 자리에 안계시는 것 같다.\n")
+        time.sleep(1)
         professor()
 
 
@@ -549,6 +630,7 @@ def professor2():
                 like2 = proheart2()
                 total_proheart2 -= like2
                 print(f"김교수님의 호감도가 {like2} 내려가서 {total_proheart2}가 되었다\n")
+                time.sleep(1)
                 main_menu()
             elif choice == '2':
                 print_slow("\"그래? 여기 앉아봐, 뭐 상담 하려고\"\n")
@@ -556,9 +638,11 @@ def professor2():
                 like2 = proheart2()
                 total_proheart2 += like2
                 print(f"김교수님의 호감도가 {like2} 올라서 {total_proheart2}가 되었다\n")
+                time.sleep(1)
                 main_menu()
             else:
                 print_slow("진짜 그럴거에요?\n")
+                time.sleep(1)
                 main_menu()
     
     elif total_brain < 20 or total_code < 20:
