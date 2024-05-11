@@ -1,4 +1,3 @@
-
 import time
 import random
 import os
@@ -32,73 +31,42 @@ scheduleList = []
 
 #일정 증감
 def schedule_UpDown():
-    global scheduleList, total_brain, total_code, total_health, total_money, total_stress, total_select_month
-    #한글자씩 출력해주는 함수
-    def print_slow(text):
-        for char in text:
-            print(char, end='', flush=True)
-            time.sleep(0.05)
-
+    global total_brain, total_code, total_health, total_money, total_stress, scheduleList, total_select_month
+    os.system('cls')
     for i in range(0,3):
         if scheduleList[i] == '알바 가기':
-            m, h, s = week_UpDown1()
-            print_slow(f"일주일간 알바를 하여...  소지금이 {m}원 올랐다!  체력이{h} 올랐다!  스트레스가 {-s} 내렸다!  \n")
-            m, h, s = week_UpDown1()
-            print_slow(f"일주일간 알바를 하여...  소지금이 {m}원 올랐다!  체력이{h} 올랐다!  스트레스가 {-s} 내렸다!  \n")
-            m, h, s = week_UpDown1()
-            print_slow(f"일주일간 알바를 하여...  소지금이 {m}원 올랐다!  체력이{h} 올랐다!  스트레스가 {-s} 내렸다!  \n")
-            m, h, s = week_UpDown1()
-            print_slow(f"일주일간 알바를 하여...  소지금이 {m}원 올랐다!  체력이{h} 올랐다!  스트레스가 {-s} 내렸다!  \n")
+            for week in range(1,5):
+                m, h, s = week_UpDown1()
+                print_slow(f"{week}주째...  알바를 하면서...  소지금이 {m}원 올랐다!  체력이{h} 올랐다!  스트레스가 {-s} 내렸다!  \n\n")
 
         elif scheduleList[i] == '운동 하기':
-            h, s = week_UpDown2()
-            print_slow(f"일주일간 운동을 하여...  체력이 {h} 올랐다!  스트레스가 {-s} 내렸다!  \n")
-            h, s = week_UpDown2()
-            print_slow(f"일주일간 운동을 하여...  체력이 {h} 올랐다!  스트레스가 {-s} 내렸다!  \n")
-            h, s = week_UpDown2()
-            print_slow(f"일주일간 운동을 하여...  체력이 {h} 올랐다!  스트레스가 {-s} 내렸다!  \n")
-            h, s = week_UpDown2()
-            print_slow(f"일주일간 운동을 하여...  체력이 {h} 올랐다!  스트레스가 {-s} 내렸다!  \n")
+            for week in range(1,5):
+                h, s = week_UpDown2()
+                print_slow(f"{week}주째...  운동을 하면서...  체력이 {h} 올랐다!  스트레스가 {-s} 내렸다!  \n\n")
 
         elif scheduleList[i] == '일반 공부':
-            b, s, h = week_UpDown3()
-            print_slow(f"일주일간 일반 공부를 하여...  지능이 {b} 올랐다!  스트레스가 {s} 올랐다!  체력이 {-h} 내렸다!  \n")
-            b, s, h = week_UpDown3()
-            print_slow(f"일주일간 일반 공부를 하여...  지능이 {b} 올랐다!  스트레스가 {s} 올랐다!  체력이 {-h} 내렸다!  \n")
-            b, s, h = week_UpDown3()
-            print_slow(f"일주일간 일반 공부를 하여...  지능이 {b} 올랐다!  스트레스가 {s} 올랐다!  체력이 {-h} 내렸다!  \n")
-            b, s, h = week_UpDown3()
-            print_slow(f"일주일간 일반 공부를 하여...  지능이 {b} 올랐다!  스트레스가 {s} 올랐다!  체력이 {-h} 내렸다!  \n")
+            for week in range(1,5):
+                b, s, h = week_UpDown3()
+                print_slow(f"{week}주째...  일반 공부를 하면서...  지능이 {b} 올랐다!  스트레스가 {s} 올랐다!  체력이 {-h} 내렸다!  \n\n")
 
         elif scheduleList[i] == '코딩 공부':
-            c, h, s = week_UpDown4()
-            print_slow(f"일주일간 코딩 공부를 하여...  코딩 실력이 {c} 올랐다!  체력이 {-h} 내렸다!  스트레스가 {s} 올랐다!\n")
-            c, h, s = week_UpDown4()
-            print_slow(f"일주일간 코딩 공부를 하여...  코딩 실력이 {c} 올랐다!  체력이 {-h} 내렸다!  스트레스가 {s} 올랐다!\n")
-            c, h, s = week_UpDown4()
-            print_slow(f"일주일간 코딩 공부를 하여...  코딩 실력이 {c} 올랐다!  체력이 {-h} 내렸다!  스트레스가 {s} 올랐다!\n")
-            c, h, s = week_UpDown4()
-            print_slow(f"일주일간 코딩 공부를 하여...  코딩 실력이 {c} 올랐다!  체력이 {-h} 내렸다!  스트레스가 {s} 올랐다!\n")
-
+            for week in range(1,5):
+                c, h, s = week_UpDown4()
+                print_slow(f"{week}주째...  코딩 공부를 하면서...  코딩 실력이 {c} 올랐다!  체력이 {-h} 내렸다!  스트레스가 {s} 올랐다!\n\n")
+            
         elif scheduleList[i] == '재밌게 놀기':
-            m, h, s = week_UpDown5()
-            print_slow(f"일주일간 재밌게 놀아...  소지금이 {m}원 내렸다!  체력이 {h} 올랐다!  스트레스가 {-s} 내렸다!\n")
-            m, h, s = week_UpDown5()
-            print_slow(f"일주일간 재밌게 놀아...  소지금이 {m}원 내렸다!  체력이 {h} 올랐다!  스트레스가 {-s} 내렸다!\n")
-            m, h, s = week_UpDown5()
-            print_slow(f"일주일간 재밌게 놀아...  소지금이 {m}원 내렸다!  체력이 {h} 올랐다!  스트레스가 {-s} 내렸다!\n")
-            m, h, s = week_UpDown5()
-            print_slow(f"일주일간 재밌게 놀아...  소지금이 {m}원 내렸다!  체력이 {h} 올랐다!  스트레스가 {-s} 내렸다!\n")
+            for week in range(1,5):
+                m, h, s = week_UpDown5()
+                print_slow(f"{week}주째...  놀면서...  소지금이 {m}원 내렸다!  체력이 {h} 올랐다!  스트레스가 {-s} 내렸다!\n\n")
+
 
         #일정을 총 몇달 돌렸는지 확인하는 변수
         total_select_month += 1
-        #일정 증감 후 리스트 비우기 작업 해야함....
-    
-    
-    
 
-#일정 증감 후 리스트 비우기
-
+    #메인 화면으로 돌아가기 
+    main_menu()
+    
+    
 
 #일주일단위로 한달 반복
 
@@ -448,14 +416,16 @@ def schedule():
     print(" |        [지능 up, 스트레스 up, 체력 down]      |\n")
     print(" |                                               |\n")
     print(" |             > 4. 코딩 공부                    |\n")
-    print(" |        [코딩실력 up, 체력 dowm, 스트레스 up]    |\n")
+    print(" |        [코딩실력 up, 체력 dowm, 스트레스 up]  |\n")
     print(" |                                               |\n")
     print(" |             > 5. 재밌게 놀기                  |\n")
-    print(" |        [소지금 down, 체력 up, 스트레스 down]    |\n")
+    print(" |        [소지금 down, 체력 up, 스트레스 down]  |\n")
     print(" |                                               |\n")
     print(" |_______________________________________________|\n")
 
     
+    #리스트 비우기
+    empty_scheduleList()
 
     while True:
         choice = input("메뉴로 돌아가기(6): \n")
@@ -493,6 +463,11 @@ def schedule():
         #세 달 정했으면 일정 증감 함수로 GO
         if len(scheduleList) == 3:
             schedule_UpDown()
+
+# 스케쥴 표 선택 시 리스트 비우기
+def empty_scheduleList():
+    global scheduleList
+    scheduleList = []
 
     
     #교수만나기메뉴
