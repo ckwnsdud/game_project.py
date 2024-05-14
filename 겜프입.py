@@ -115,7 +115,7 @@ def print_slow2(text,speed):
         time.sleep(speed)
 
 #일정 돌아가는 개월
-total_select_month = 0
+total_select_month = 3
 
 #일정 돌아가는 년도
 total_select_year = 2024
@@ -146,6 +146,7 @@ def schedule_UpDown():
         for char in text:
             print(char, end='', flush=True)
             time.sleep(0.05)
+
     for i in range(0,3):
         if scheduleList[i] == '알바 가기':
             for week in range(1,5):
@@ -183,14 +184,15 @@ def schedule_UpDown():
             time.sleep(0.15)
     print_slow2("집으로 돌아가는 중. . .\n\n",0.05)
 
-    #일정 돌린 후 3개월씩 증가
+    #일정 돌릴 때마다 3개월씩 증가
     total_select_month += 3 
 
+    #12개월 넘어가면 1년 더하고 3개월로 초기화 
     if total_select_month == 15:
         total_select_year += 1 
         total_select_month = 3 
 
-    elif total_select_month % 6 == 0:
+    if total_select_month == 9 or total_select_month == 3:
         tuition()
     
     #일정 돌린 후 날짜 출력
@@ -199,7 +201,9 @@ def schedule_UpDown():
 
 #등록금 함수
 def tuition():
+    money(-50)
     print_slow("벌써 한 학기가 지났네요...  등록금 50원이 차감됩니다...\n\n")
+    
 
 
 #날짜 출력 함수
