@@ -3,6 +3,9 @@ import random
 import os
 import ctypes
 from turtle import speed
+import datetime
+import time
+
 
 #터미널위치를임의로지정
 class COORD(ctypes.Structure):
@@ -98,8 +101,6 @@ def color_print_slow(text, color):
         
 
 
-    
-
 
 
 #글자 한글자씩 출력해주는 함수
@@ -115,6 +116,9 @@ def print_slow2(text,speed):
 
 #일정 돌아가는 개월
 total_select_month = 0
+
+#일정 돌아가는 년도
+total_select_year = 2024
 
 #일주일
 total_week = 1
@@ -133,14 +137,15 @@ total_proheart2 = 0
 #스케쥴 리스트 생성
 scheduleList = []
 
+
 #일정 증감
 def schedule_UpDown():
+    global total_brain, total_code, total_health, total_money, total_stress, scheduleList, total_select_month, total_select_year
+    os.system('cls')
     def print_slow(text):
         for char in text:
             print(char, end='', flush=True)
             time.sleep(0.05)
-    global total_brain, total_code, total_health, total_money, total_stress, scheduleList, total_select_month
-    os.system('cls')
     for i in range(0,3):
         if scheduleList[i] == '알바 가기':
             for week in range(1,5):
@@ -170,21 +175,40 @@ def schedule_UpDown():
             for week in range(1,5):
                 m, h, s = week_UpDown5()
                 move_cursor(0,10)
-                print_slow(f"{week}주째...  놀면서...  소지금이 {m}원 내렸다!  체력이 {h} 올랐다!  스트레스가 {-s} 내렸다!\n\n")
+                print_slow(f"{week}주째...  놀면서...  소지금이 {-m}원 내렸다!  체력이 {h} 올랐다!  스트레스가 {-s} 내렸다!\n\n")
 
-
-        #일정을 총 몇달 돌렸는지 확인하는 변수
-        total_select_month += 1
     def print_slow(text):
         for char in text:
             print(char, end='', flush=True)
             time.sleep(0.15)
-    print_slow2("집으로 돌아가는 중. . .",0.05)
-    main_menu()
+    print_slow2("집으로 돌아가는 중. . .\n\n",0.05)
+
+    #일정 돌린 후 3개월씩 증가
+    total_select_month += 3 
+
+    if total_select_month == 15:
+        total_select_year += 1 
+        total_select_month = 3 
+
+    elif total_select_month % 6 == 0:
+        tuition()
     
+    #일정 돌린 후 날짜 출력
+    print_date()
     
 
-#일주일단위로 한달 반복
+#등록금 함수
+def tuition():
+    print_slow("벌써 한 학기가 지났네요...  등록금 50원이 차감됩니다...\n\n")
+
+
+#날짜 출력 함수
+def print_date():
+    global total_select_month, total_select_year
+    print_slow(f"세 달 일정을 마쳤습니다! 오늘은 {total_select_year}년 {total_select_month}월 1일 입니다!\n\n")
+
+    #그 후 다시 메인메뉴로
+    main_menu()
 
 
 
@@ -523,7 +547,17 @@ def main_menu():
     else:
         print_slow("제대로 선택 하세요.\n")
         main_menu()
-        
+    
+
+    
+
+
+
+
+
+
+
+
 
     #스케쥴 메뉴
 def schedule():
