@@ -138,21 +138,23 @@ total_proheart1 = 0
 total_proheart2 = 0
 
 
-#교수님 만나기 증감
+#교수님 만나기 
 meet_proheart = 0
 
 
-#교수님 만남 횟수 제한 증감
+#교수님 만남 횟수 제한 
 end_meet_proheart = 0
 
-
+#시험 
+test = 1
+ 
 #스케쥴 리스트 생성
 scheduleList = []
 
 
 #일정 증감
 def schedule_UpDown():
-    global total_brain, total_code, total_health, total_money, total_stress, scheduleList, total_select_month, total_select_year, meet_proheart, end_meet_proheart
+    global total_brain, total_code, total_health, total_money, total_stress, scheduleList, total_select_month, total_select_year, meet_proheart, end_meet_proheart, test
     os.system('cls')
 
     #교수님 만나기 0으로 설정
@@ -166,7 +168,13 @@ def schedule_UpDown():
             time.sleep(0.05)
 
     for i in range(0,3):
-        if scheduleList[i] == '알바 가기':
+        if scheduleList[i] == '시험':
+            for week in range(1,5):
+                s, b = week_UpDown0()
+                move_cursor(0,10)
+                print_slow(f"{week}주째...  시험을 치면서...  스트레스가 {s} 올랐다!  지능이 {b} 올랐다!  \n\n")
+
+        elif scheduleList[i] == '알바 가기':
             for week in range(1,5):
                 m, h, s = week_UpDown1()
                 move_cursor(0,10)
@@ -208,10 +216,10 @@ def schedule_UpDown():
     money(-10)
     stress_RandomUp()
 
-    #시험
-    
-
-    #교수님 만나기 1추가
+    #시험 1씩 증가 
+    test += 1
+     
+    #교수님 만나기 1씩 증가
     meet_proheart += 1
 
     #일정 돌릴 때마다 3개월씩 증가
@@ -227,7 +235,7 @@ def schedule_UpDown():
     
     #일정 돌린 후 날짜 출력
     print_date()
-    
+     
 
 #등록금 함수
 def tuition():
@@ -249,6 +257,11 @@ def print_date():
     main_menu()
 
 
+#시험의 일주일단위 능력치 증감
+def week_UpDown0():
+    plus1 = stress_RandomUp()
+    plus2 = brain_RandomUp()
+    return plus1, plus2
 
 #알바 가기의 일주일단위 능력치 증감
 def week_UpDown1():
@@ -605,7 +618,7 @@ def main_menu():
     #스케쥴 메뉴
 def schedule():
     os.system('cls')
-    global total_brain, total_code, total_health, total_money, total_stress, scheduleList
+    global total_brain, total_code, total_health, total_money, total_stress, scheduleList, test
     def print_slow(text):
         for char in text:
             print(char, end='', flush=True)
@@ -637,6 +650,7 @@ def schedule():
     empty_scheduleList()
 
     while True:
+
         choice = input("메뉴로 돌아가기(a): \n")
         if choice == 'a':
             main_menu()
@@ -660,7 +674,6 @@ def schedule():
         elif choice == '5':
             print("재밌게 놀기를 선택하셨습니다.\n")
             scheduleList.append('재밌게 놀기')
-
         else:
             def print_slow(text):
                 for char in text:
