@@ -101,8 +101,6 @@ def color_print_slow(text, color):
         
 
 
-
-
 #글자 한글자씩 출력해주는 함수
 def print_slow(text):
     for char in text:
@@ -114,14 +112,18 @@ def print_slow2(text,speed):
         print(char, end='', flush=True)
         time.sleep(speed)
 
+
 #일정 돌아가는 개월
 total_select_month = 3
+
 
 #일정 돌아가는 년도
 total_select_year = 2024
 
+
 #일주일
 total_week = 1
+
 
 #스탯
 total_brain = 10
@@ -130,9 +132,19 @@ total_stress = 0
 total_code = 0
 total_money = 50
 
+
 #교수님 호감도
 total_proheart1 = 0
 total_proheart2 = 0
+
+
+#교수님 만나기 증감
+meet_proheart = 0
+
+
+#교수님 만남 횟수 제한 증감
+end_meet_proheart = 0
+
 
 #스케쥴 리스트 생성
 scheduleList = []
@@ -140,8 +152,14 @@ scheduleList = []
 
 #일정 증감
 def schedule_UpDown():
-    global total_brain, total_code, total_health, total_money, total_stress, scheduleList, total_select_month, total_select_year
+    global total_brain, total_code, total_health, total_money, total_stress, scheduleList, total_select_month, total_select_year, meet_proheart, end_meet_proheart
     os.system('cls')
+
+    #교수님 만나기 0으로 설정
+    meet_proheart = 0
+    #교수님 만남 횟수 제한 0으로 설정
+    end_meet_proheart = 0
+
     def print_slow(text):
         for char in text:
             print(char, end='', flush=True)
@@ -184,10 +202,22 @@ def schedule_UpDown():
             time.sleep(0.15)
     print_slow2("집으로 돌아가는 중. . .\n\n",0.05)
 
+#이벤트 
+
+    #밥 값
+    money(-10)
+    stress_RandomUp()
+
+    #시험
+    
+
+    #교수님 만나기 1추가
+    meet_proheart += 1
+
     #일정 돌릴 때마다 3개월씩 증가
     total_select_month += 3 
 
-    #12개월 넘어가면 1년 더하고 3개월로 초기화 
+    #12개월 넘어가면 1년 더하고 3월로 설정
     if total_select_month == 15:
         total_select_year += 1 
         total_select_month = 3 
@@ -201,16 +231,20 @@ def schedule_UpDown():
 
 #등록금 함수
 def tuition():
-    money(-50)
-    print_slow("벌써 한 학기가 지났네요...  등록금 50원이 차감됩니다...\n\n")
-    
+    if total_money >= 50:
+        money(-50)
+        print_slow("벌써 한 학기가 지났네요...  등록금 50원이 차감됩니다...\n\n")
+    elif total_money < 50:   
+        print_slow("등록금을 낼 돈이 부족해요. 다시 시작해보는 게...")
+        death()
+        
 
 
 #날짜 출력 함수
 def print_date():
     global total_select_month, total_select_year
     print_slow(f"세 달 일정을 마쳤습니다! 오늘은 {total_select_year}년 {total_select_month}월 1일 입니다!\n\n")
-
+    time.sleep(2)
     #그 후 다시 메인메뉴로
     main_menu()
 
@@ -316,7 +350,6 @@ def stress_RandomDown():
     minus = random.randint(-5,-1)
     if total_stress + minus < 0:
         fix_stress()
-        total_stress += minus
         return minus
     elif total_stress + minus >= 100: 
         death()
@@ -336,7 +369,6 @@ def money_RandomDown():
     minus = random.randint(-5,-1)
     if total_money + minus < 0:
         fix_money()
-        total_money += minus
         return minus
     elif total_money + minus >= 0:
         total_money += minus
@@ -522,6 +554,7 @@ def start_intro():
     #인트로 후 메인메뉴
 def main_menu():
     os.system('cls')
+    global meet_proheart, end_meet_proheart
     def print_slow(text):
         for char in text:
             print(char, end='', flush=True)
@@ -542,8 +575,14 @@ def main_menu():
     choice = input("무엇을 하시겠습니까? : \n")
     if choice == 'a':
         schedule()
-    elif choice == 's':
+    elif choice == 's' and meet_proheart == 0:
         professor()
+    elif choice == 's' and meet_proheart == 1 and end_meet_proheart == 0:
+        end_meet_proheart += 1
+        professor()
+    elif choice == 's' and meet_proheart == 1 and end_meet_proheart == 1:
+        print_slow("일정 한 번에 교수님은 한 번만 만날 수 있어요.")
+        main_menu()
     elif choice == 'd':
         store()
     elif choice == 'f':
@@ -638,9 +677,6 @@ def empty_scheduleList():
     global scheduleList
     scheduleList = []
     
-
-
-
     
     #교수만나기메뉴
 def professor():
@@ -666,7 +702,6 @@ def professor():
     #교수님 선택
     if choice == '1':
         professor1()
-
     elif choice == '2':
         professor2()
     elif choice == '3':
@@ -775,7 +810,7 @@ def professor2():
         print_slow("돌아가는 중. . .\n")
         time.sleep(1)
         
-        main_menu()
+        professor()
         
     #자판기 메뉴
 def store():
