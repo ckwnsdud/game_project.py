@@ -869,9 +869,9 @@ def store():
         if total_money >= 5:
             print(" < 스트레스가 해소되고 지능이 떨어졌다 !>\n")
             print_slow(" - 이슬은 아이셔가 맛있는데-\n")
-            total_stress -= 20
-            total_brain -= 20
-            total_money -= 5
+            stress(-20)
+            brain(-5)
+            money(-5)
             time.sleep(1)
             main_menu()
         elif total_money < 5:
@@ -883,9 +883,9 @@ def store():
         if total_money >= 9:
             print(" < 스트레스를 받고 지능이 올라갔다 !>\n")
             print_slow(" - 공부 화이팅... 카페인은 조금만-\n")
-            total_stress += 5
-            total_brain += 10
-            total_money -= 10
+            stress(5)
+            brain(10)
+            money(-10)
             time.sleep(1)
             main_menu()
         elif total_money <= 9:
@@ -897,9 +897,9 @@ def store():
         if total_money >= 15:
             print(" < 스트레스를 받고 체력이 올라갔다 !>")
             print_slow(" - 우웩 너무 맛없어!! 하지만 먹는건 준영이다 화이팅! >o< - \n\n")
-            total_stress += 10
-            total_brain -= 20
-            total_money -= 15
+            stress(10)
+            health(20)
+            money(-15)
             time.sleep(1)
             main_menu()
         elif total_money <= 14:
@@ -911,8 +911,8 @@ def store():
         if total_money >=10:
             print(" < 스트레스가 해소되었다 ! >")
             print_slow("- 아플때까지 공부하지는 말기로 ㅜㅅㅜ - \n\n")
-            total_stress -= 20
-            total_money -= 10
+            stress(-20)
+            money(-10)
             main_menu()
         elif total_money <= 9:
             print_slow(" < 소지금이 부족합니다...[거-지] >\n")
@@ -922,11 +922,11 @@ def store():
         if total_money >= 25:
             print(" < 스트레스가 해소되고 체력이 떨어지고 코딩실력과 지능이 올라갔다 ! >\n")
             print_slow(" - 코딩 능력자가 되기 위해서는 뭐든 할 수 있어... -\n\n")
-            total_stress -= 10
-            total_brain += 10
-            total_code += 10
-            total_health -= 20
-            total_money -= 25
+            stress(-10)
+            brain(10)
+            code(10)
+            health(-20)
+            money(-25)
             time.sleep(1)
             
             main_menu()
