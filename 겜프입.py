@@ -5,7 +5,7 @@ import ctypes
 from turtle import speed
 import datetime
 import threading
-import keyboard
+
 
 
 
@@ -120,7 +120,7 @@ def print_slow2(text,speed):
 def print_at(text,x,y):
     for char in text:
         print(char, end='',flush=True)
-        time.sleep(0.04)
+        time.sleep(0.05)
         
 
 #시험
@@ -197,16 +197,16 @@ def test():
          print("\n")
          print_slow("\"나름 열심히 한건데...\"")
          print("\n")
-         print_slow("스트레스 20을 받았다")
-         stress(20)
+         print_slow("스트레스 15를 받았다")
+         stress(15)
          time.sleep(1)
          
     elif total_brain >= 40 and total_code >= 30:
          color_print_slow("또 시간을 돌려주지는 않는다고 ! ヽ（≧□≦）ノ\n","sky")
          print("\n")
          print_slow("\"나름 열심히 한건데...\"")
-         stress(20)
-         print_slow("스트레스 20을 받았다")
+         stress(15)
+         print_slow("스트레스 15를 받았다")
          print("\n")
          time.sleep(1)
          
@@ -286,11 +286,13 @@ def schedule_UpDown():
                 ani_thread.start()
                 ani_thread.join()
                 move_cursor(0, 10)
-                print_at(f"{week+1}주째...  알바를 하면서...\n"+
+                print_at(f"{week+1}주째...\n" +
+                                "\n" +
+                                "알바를 하면서...\n" +
                                 "\n"+
-                                f"소지금이 {m}원 올랐다!\n"+
+                                f"소지금이 {m}원 올랐다!\n" +
                                 "\n"+
-                                f"체력이 {h} 올랐다 !\n"+
+                                f"체력이 {h} 올랐다 !\n" +
                                 "\n"+
                                 f"스트레스가 {s} 올랐다 !\n",0,10)
                 
@@ -299,17 +301,18 @@ def schedule_UpDown():
                 
         elif scheduleList[i] == '운동 하기':
             for week in range(0,4):
-                h, s = week_UpDown2()
+                m, h, s = week_UpDown2()
                 clear()
-                move_cursor(0,10)
                 move_cursor(5,5)
                 ani_thread = threading.Thread(target=ani, args=(week,))
                 ani_thread.start()
                 ani_thread.join()
-                
+                move_cursor(0,10)
                 print_slow(f"{week+1}주째...\n" +
                            "\n" +
                            "운동을 하면서...\n"  +
+                           "\n" +
+                           f"소지금이 {-m}원 내렸다 !\n" +
                            "\n" +
                            f"체력이 {h} 올랐다 !\n" +
                            "\n" +
@@ -319,12 +322,11 @@ def schedule_UpDown():
             for week in range(0,4):
                 b, s, h = week_UpDown3()
                 clear()
-                move_cursor(0,10)
                 move_cursor(5,5)
                 ani_thread = threading.Thread(target=ani, args=(week,))
                 ani_thread.start()
                 ani_thread.join()
-                
+                move_cursor(0,10)
                 print_slow(f"{week+1}주째...\n" +
                             "\n" +
                             "일반 공부를 하면서...\n" +
@@ -339,12 +341,11 @@ def schedule_UpDown():
             for week in range(0,4):
                 c, h, s = week_UpDown4()
                 clear()
-                move_cursor(0,10)
                 move_cursor(5,5)
                 ani_thread = threading.Thread(target=ani, args=(week,))
                 ani_thread.start()
                 ani_thread.join()
-               
+                move_cursor(0,10)
                 print_slow(f"{week+1}주째...\n" +
                             "\n" +
                             "코딩 공부를 하면서...\n" +
@@ -357,21 +358,18 @@ def schedule_UpDown():
             
         elif scheduleList[i] == '재밌게 놀기':
             for week in range(0,4):
-                m, h, s = week_UpDown5()
+                b, s = week_UpDown5()
                 clear()
-                move_cursor(0,10)
                 move_cursor(5,5)
                 ani_thread = threading.Thread(target=ani, args=(week,))
                 ani_thread.start()
                 ani_thread.join()
-            
+                move_cursor(0,10)
                 print_slow(f"{week+1}주째...\n" +
                             "\n" +
-                            "놀면서..."
+                            "놀면서...\n" +
                             "\n" +
-                            f"소지금이 {-m}원 내렸다 !\n"
-                            "\n" +
-                            f"체력이 {h} 올랐다 !\n"
+                            f"지능이 {-b} 내렸다 !\n"
                             "\n" +
                             f"스트레스가 {-s} 내렸다 !\n")
 
@@ -396,6 +394,10 @@ def schedule_UpDown():
         year += 1 
         month = 3 
 
+    #생일 
+    if month == 3:
+        birthday()
+
     #등록금
     if month == 9 or month == 3:
         tuition()
@@ -409,13 +411,43 @@ def schedule_UpDown():
 
 #등록금 함수
 def tuition():
-    if total_money >= 20:
-        money(-20)
-        print_slow("벌써 한 학기가 지났네요...  등록금 20원이 차감됩니다 !\n\n")
-    elif total_money < 20:   
+
+    if total_money >= 10:
+        money(-10)
+        print_slow("벌써 한 학기가 지났네요...  등록금 10원이 차감됩니다 !\n\n")
+        time.sleep(1)
+    elif total_money < 10:   
         print_slow("등록금을 낼 돈이 부족해요. 이러면 학교를 다닐 수 없어. . .")
         death()
         
+
+#생일 선물
+def birthday():
+    clear()
+    print_slow("준영아 생일 축하해!! 준영이의 생일이 다가왔다. (*^▽^*)\n")
+    print("\n")
+    print("_________________ 선택창 _________________\n")
+    print("|                                        |\n")
+    print("| > 1. 두툼한 돈봉투 (꽤 되는 것 같다)   |\n")
+    print("|                                        |\n")
+    print("| > 2. 엄마가 차려준 미역국              |\n")
+    print("|                                        |\n")
+    print("| > 3. 최신 게이밍 노트북                |\n")
+    print("|________________________________________|")
+    print("\n")
+
+    choice = int(input("어떤 선물을 받을까? "))
+    if choice == 1:
+        print_slow("얼만지 한 번 볼까? \n")
+        print_slow("와.. 10원이나 들어있네!\n")
+        print_slow("준영이는 10원을 획득하였다 (*^▽^*)\n")
+        money(10)
+    elif choice == 2:
+        print_slow("얼마만의 미역국인가 ㅠㅠ \n")
+        print_slow("내가 먹고 있는 게 눈물인지 미역국인지 구분이 안간다\n")
+        print_slow("피로가 싹 내려가는 맛이다 (/▽＼)\n")
+        print_slow("준영이의 스트레스가 10 내렸다 (*^▽^*)\n")
+        stress(-10)
 
 #시험의 일주일단위 능력치 증감
 def week_UpDown0():
@@ -432,9 +464,10 @@ def week_UpDown1():
 
 #운동 하기의 일주일단위 능력치 증감 
 def week_UpDown2():
-    plus1 = health_RandomUp()
-    plus2 = stress_RandomDown()
-    return plus1, plus2
+    plus1 = money_RandomDown()
+    plus2 = health_RandomUp()
+    plus3 = stress_RandomDown()
+    return plus1, plus2, plus3
 
 #일반 공부의 일주일단위 능력치 증감
 def week_UpDown3():
@@ -452,10 +485,9 @@ def week_UpDown4():
 
 #재밌게 놀기의 일주일단위 능력치 증감
 def week_UpDown5():
-    plus1 = money_RandomDown()
-    plus2 = health_RandomUp()
-    plus3 = stress_RandomDown()
-    return plus1, plus2, plus3
+    plus1 = brain_RandomDown()
+    plus2 = stress_RandomDown()
+    return plus1, plus2
 
 #스탯 랜덤 증가
 def brain_RandomUp():
@@ -505,7 +537,7 @@ def money_RandomUp():
 def brain_RandomDown():
     global total_brain
     if 0 <= total_brain <=999:
-        minus = random.randint(-5,-1)
+        minus = random.randint(-4,-1)
         total_brain += minus
         return minus
     
@@ -539,7 +571,7 @@ def code_RandomDown():
     
 def money_RandomDown():
     global total_money
-    minus = random.randint(-5,-1)
+    minus = random.randint(-4,-1)
     if total_money + minus < 0:
         fix_money()
         return minus
@@ -793,22 +825,22 @@ def schedule():
     move_cursor(0,5)
     print_slow(" 준영이의 세 달을 정해주세요 !\n")
     print_slow("    <일정 3개를 선택하면 됩니다 ! >\n")
-    print(" ____________________일 정_______________________\n")
+    print(" ______________________일 정______________________\n")
     print(" |                                               |\n")
-    print(" |             > 1. 알바 가기                    |\n")
+    print(" |                > 1. 알바 가기                 |\n")
     print(" |        [소지금 up, 체력 up, 스트레스 up]      |\n")
     print(" |                                               |\n")
-    print(" |             > 2. 운동 하기                    |\n")
-    print(" |        [체력 up, 스트레스 down]               |\n")
+    print(" |                > 2. 운동 하기                 |\n")
+    print(" |     [소지금 down, 체력 up, 스트레스 down]     |\n")
     print(" |                                               |\n")
-    print(" |             > 3. 일반 공부                    |\n")
+    print(" |                > 3. 일반 공부                 |\n")
     print(" |        [지능 up, 스트레스 up, 체력 down]      |\n")
     print(" |                                               |\n")
-    print(" |             > 4. 코딩 공부                    |\n")
-    print(" |        [코딩실력 up, 체력 dowm, 스트레스 up]  |\n")
+    print(" |                > 4. 코딩 공부                 |\n")
+    print(" |     [코딩실력 up, 체력 dowm, 스트레스 up]     |\n")
     print(" |                                               |\n")
-    print(" |             > 5. 재밌게 놀기                  |\n")
-    print(" |        [소지금 down, 체력 up, 스트레스 down]  |\n")
+    print(" |               > 5. 재밌게 놀기                |\n")
+    print(" |           [지능 down, 스트레스 down]          |\n")
     print(" |                                               |\n")
     print(" |_______________________________________________|\n")
 
@@ -906,7 +938,7 @@ def professor1():
         #지능이 10 초과일 때만 +1 해야됨 (일정 돌릴 때 쓰던 코드를 여기로 옮김)
         end_meet_pro1 += 1
 
-        if total_proheart1 >= 15 and end_meet_pro1 >= 6:
+        if total_proheart1 >= 22 and end_meet_pro1 >= 6:
              print_slow("박교수님 : 어머 준영아 벌써 졸업할 때가 온 것 같네,,  혹시 대학원 생각 있어? (｡･∀･)ﾉﾞ)\n\n")
              print("________________________________선 택 창_______________________________\n")
              print("|                                                                      |\n")
@@ -916,9 +948,12 @@ def professor1():
              print("|______________________________________________________________________|\n")
              choice = input("어떤 대답을 할까? :\n")
              if choice == '2':
-                print_slow("박교수님 : 미안해.. 괜한 말을 꺼냈나보다.. (┬┬﹏┬┬)\"\n")   
+                print_slow("박교수님 : 미안해.. 괜한 말을 꺼냈나보다.. (┬┬﹏┬┬)\"\n")
+                print("\n")   
                 print_slow("（ヽ(*。>Д<)o゜교수님은 상처를 받으신 거 같다\n")
+                print("\n")
                 print_slow("준영이는 방을 나왔다 \n")
+                print("\n")
                 like1 = proheart1()
                 total_proheart1 -= like1
                 print_slow(f"박교수님의 호감도가 {like1} 내려가서 {total_proheart1}가 되었다 (┬┬﹏┬┬) \n")
@@ -927,7 +962,9 @@ def professor1():
                 main_menu()
              elif choice == '1':
                 print_slow("박교수님 : 어머 ~ 그럴수가 준영아 교수님이랑 재밌게 연구해보자 ~ (*^▽^*)\n")
+                print("\n")
                 print_slow("（ヽ(*。>Д<)o゜얼굴에 미소가 가득하시다\n")
+                print("\n")
                 print_slow("준영이는 방을 나왔다 \n")
                 print("\n")
                 like1 = proheart1()
@@ -941,7 +978,7 @@ def professor1():
                 print_slow("진짜 그럴거에요?\n")
                 main_menu()
 
-        elif total_proheart1 >= 13 and end_meet_pro1 >= 5:
+        elif total_proheart1 >= 19 and end_meet_pro1 >= 5:
              print_slow("박교수님 : 준영아 학교는 좀 어떠니? 다닐만 하니? (/▽＼)\n\n")
              print("____________________선 택 창_____________________\n")
              print("|                                               |\n")
@@ -953,11 +990,14 @@ def professor1():
 
              choice = input("어떤 대답을 할까? :\n")
              if choice == '2':
-                print_slow("박교수님 : 그렇구나? (•_•).\"\n")   
+                print_slow("박교수님 : 그렇구나? (•_•).\"\n")
+                print("\n")   
                 print_slow("（ヽ(*。>Д<)o゜걱정하시는 것 같다...\n")
+                print("\n")  
                 like1 = proheart1()
                 total_proheart1 -= like1
                 print_slow(f"박교수님의 호감도가 {like1} 내려가서 {total_proheart1}가 되었다 (┬┬﹏┬┬) \n")
+                print("\n")  
                 print_slow("돌아가는 중. . .\n")
                 time.sleep(1)
                 main_menu()
@@ -977,7 +1017,7 @@ def professor1():
                 print_slow("진짜 그럴거에요?\n")
                 main_menu()
             
-        elif total_proheart1 >= 11 and end_meet_pro1 >= 5:
+        elif total_proheart1 >= 16 and end_meet_pro1 >= 5:
              print_slow("박교수님 : 깜짝 퀴즈 ~ 준영아 교수님이 넌센스 퀴즈 하나 낼게!  사면 후회하는 의자는 뭘까? \n\n")
              print("____________________선 택 창_______________________\n")
              print("|                                                 |\n")
@@ -988,18 +1028,24 @@ def professor1():
 
              choice = input("어떤 대답을 할까? :\n")
              if choice == '2':
-                print_slow("박교수님 : 틀렸어! 정답은 팔 걸 이 의자였어 (┬┬﹏┬┬)\"\n")   
+                print_slow("박교수님 : 틀렸어! 정답은 팔 걸 이 의자였어 (┬┬﹏┬┬)\"\n")
+                print("\n")     
                 print_slow("（ヽ(*。>Д<)o゜매우 아쉬워하신다...\n")
+                print("\n")  
                 print_slow("준영이는 방을 나왔다 \n")
+                print("\n")  
                 like1 = proheart1()
                 total_proheart1 -= like1
                 print_slow(f"박교수님의 호감도가 {like1} 내려가서 {total_proheart1}가 되었다 (┬┬﹏┬┬) \n")
+                print("\n")  
                 print_slow("돌아가는 중. . .\n")
                 time.sleep(1)
                 main_menu()
              elif choice == '1':
                 print_slow("박교수님 : 정답! 와 ~ 이걸 맞추다니 대단해!! (｡･∀･)ﾉﾞ)\n")
+                print("\n")  
                 print_slow("（ヽ(*。>Д<)o゜매우 뿌듯해하신다...\n")
+                print("\n")  
                 print_slow("준영이는 방을 나왔다 \n")
                 print("\n")
                 like1 = proheart1()
@@ -1013,7 +1059,7 @@ def professor1():
                 print_slow("진짜 그럴거에요?\n")
                 main_menu()
 
-        elif total_proheart1 >= 9 and end_meet_pro1 >= 4:
+        elif total_proheart1 >= 13 and end_meet_pro1 >= 4:
              print_slow("박교수님 : 준영아 안보여서 걱정했어 ~ (/▽＼) \n\n")
              print("____________________선 택 창_____________________\n")
              print("|                                               |\n")
@@ -1027,10 +1073,13 @@ def professor1():
              choice = input("어떤 대답을 할까? :\n")
              if choice == '1':
                 print_slow("박교수님 : 어머... 그렇구나 미안해 (ToT)/~~~.\n")
+                print("\n")  
                 print_slow("（ヽ(*。>Д<)o゜교수님은 상처를 받으신거 같다...\n")
+                print("\n")  
                 like1 = proheart1()
                 total_proheart1 -= like1
                 print_slow(f"박교수님의 호감도가 {like1} 내려가서 {total_proheart1}가 되었다 (┬┬﹏┬┬) \n")
+                print("\n")  
                 print_slow("돌아가는 중. . .\n")
                 time.sleep(1)
                 main_menu()
@@ -1059,7 +1108,7 @@ def professor1():
                 main_menu()
 
 
-        elif total_proheart1 >= 7 and end_meet_pro1 >= 4:
+        elif total_proheart1 >= 10 and end_meet_pro1 >= 4:
              print_slow("박교수님 : 아 준영이 안녕~ 너희 조 게임프로젝트는 잘 돼가니? (；′⌒`) ?\n\n")
              print("________________________선 택 창________________________\n")
              print("|                                                      |\n")
@@ -1071,10 +1120,13 @@ def professor1():
              choice = input("어떤 대답을 할까? :\n")
              if choice == '2':
                 print_slow("박교수님 : 그렇구나? (•_•).\"\n")
+                print("\n")  
                 print_slow("（ヽ(*。>Д<)o゜어색한 침묵이 흐른다...\n")
+                print("\n")  
                 like1 = proheart1()
                 total_proheart1 -= like1
                 print_slow(f"박교수님의 호감도가 {like1} 내려가서 {total_proheart1}가 되었다 (┬┬﹏┬┬) \n")
+                print("\n")  
                 print_slow("돌아가는 중. . .\n")
                 time.sleep(1)
                 main_menu()
@@ -1094,7 +1146,7 @@ def professor1():
                 print_slow("진짜 그럴거에요?\n")
                 main_menu()
         
-        elif total_proheart1 >= 5 and end_meet_pro1 >= 3:
+        elif total_proheart1 >= 7 and end_meet_pro1 >= 3:
              print_slow("박교수님 : 아 준영이 안녕 ! 저번에는 바빠서 미안 (/▽＼) \n\n")
              print("_________________________선 택 창_________________________\n")
              print("|                                                        |\n")
@@ -1107,10 +1159,13 @@ def professor1():
              choice = input("어떤 대답을 할까? :\n")
              if choice == '1':
                 print_slow("박교수님 : 그, 그래? 호호... (•_•).\"\n")
+                print("\n")  
                 print_slow("（ヽ(*。>Д<)o゜교수님은 부담감을 느끼신다...\n")
+                print("\n")  
                 like1 = proheart1()
                 total_proheart1 -= like1
                 print_slow(f"박교수님의 호감도가 {like1} 내려가서 {total_proheart1}가 되었다 (┬┬﹏┬┬) \n")
+                print("\n")  
                 print_slow("돌아가는 중. . .\n")
                 time.sleep(1)
                 main_menu()
@@ -1130,7 +1185,7 @@ def professor1():
                 print_slow("진짜 그럴거에요?\n")
                 main_menu()
 
-        elif total_proheart1 >= 3 and end_meet_pro1 >= 3:
+        elif total_proheart1 >= 4 and end_meet_pro1 >= 3:
              print_slow("박교수님 : 아 준영이 안녕~ 그런데 내가 지금 잠시 바빠서 기다려줄래? (；′⌒`) ?\n\n")
              print("_________________________선 택 창_________________________\n")
              print("|                                                        |\n")
@@ -1142,10 +1197,13 @@ def professor1():
              choice = input("어떤 대답을 할까? :\n")
              if choice == '2':
                 print_slow("박교수님 : 그러니? (•_•).\"\n")
+                print("\n")  
                 print_slow("（ヽ(*。>Д<)o゜어색한 침묵이 흐른다...\n")
+                print("\n")  
                 like1 = proheart1()
                 total_proheart1 -= like1
                 print_slow(f"박교수님의 호감도가 {like1} 내려가서 {total_proheart1}가 되었다 (┬┬﹏┬┬) \n")
+                print("\n")  
                 print_slow("돌아가는 중. . .\n")
                 time.sleep(1)
                 main_menu()
@@ -1177,7 +1235,9 @@ def professor1():
              choice = input("어떤 대답을 할까? :\n")
              if choice == '1':
                 print_slow("박교수님 : 그러니? 그런데 그때 얘기가 끝났던거 같은데... (•_•).\"\n")
+                print("\n")  
                 print_slow("（ヽ(*。>Д<)o゜쫓겨났다...\n")
+                print("\n")  
                 like1 = proheart1()
                 total_proheart1 -= like1
                 print_slow(f"박교수님의 호감도가 {like1} 내려가서 {total_proheart1}가 되었다 (┬┬﹏┬┬) \n")
@@ -1213,10 +1273,13 @@ def professor1():
             choice = input("어떤 대답을 할까? :\n")
             if choice == '1':
                 print_slow("박교수님 : 그러니. 내가 좀 바빠서 미안해 (•_•).\"\n")
+                print("\n")  
                 print_slow("（ヽ(*。>Д<)o゜쫓겨났다...\n")
+                print("\n")  
                 like1 = proheart1()
                 total_proheart1 -= like1
                 print_slow(f"박교수님의 호감도가 {like1} 내려가서 {total_proheart1}가 되었다 (┬┬﹏┬┬) \n")
+                print("\n")  
                 print_slow("돌아가는 중. . .\n")
                 time.sleep(1)
                 main_menu()
@@ -1260,7 +1323,7 @@ def professor2():
     if total_brain >= 20 and total_code >= 20:
         #지능이 20 이상이고 코딩실력이 20 이상일 때만 +1 해야됨 (일정 돌릴 때 쓰던 코드를 여기로 옮김)
         end_meet_pro2 += 1
-        if total_proheart2 >= 15 and end_meet_pro2 >= 6:
+        if total_proheart2 >= 35 and end_meet_pro2 >= 6:
              print_slow("김교수님 : 내 제자들이 벌써 졸업을 한다니.. 교수님은 너희를 항상 응원한단다. 그동안 수고 많았어 \n\n")
              print("_________________________선 택 창__________________________\n")
              print("|                                                         |\n")
@@ -1272,8 +1335,11 @@ def professor2():
              choice = input("어떤 대답을 할까? :\n")
              if choice == '1':
                 print_slow("김교수님 : 앞으로도 보고싶을 거야. 열심히 살아 흑흑..\"\n")
+                print("\n")  
                 print_slow(" (┬┬﹏┬┬) 눈물을 훔치신다. 괜히 나도 눈물이 나오려 한다..\n")
+                print("\n")  
                 print_slow("준영이는 방을 나왔다 \n")
+                print("\n")  
                 like1 = proheart1()
                 total_proheart2 += like1
                 print_slow(f"김교수님의 호감도가 {like1} 올라서 {total_proheart2}가 되었다 ! (｡･∀･)ﾉﾞ)\n")
@@ -1283,7 +1349,9 @@ def professor2():
                 main_menu()
              elif choice == '2':
                 print_slow("김교수님 : 앞으로도 보고싶을 거야. 열심히 살아 흑흑..\n")
+                print("\n")  
                 print_slow(" (┬┬﹏┬┬) 눈물을 훔치신다. 괜히 나도 눈물이 나오려 한다..\n")
+                print("\n")  
                 print_slow("준영이는 방을 나왔다 \n")
                 print("\n")
                 like1 = proheart1()
@@ -1297,7 +1365,7 @@ def professor2():
                 print_slow("진짜 그럴거에요?\n")
                 main_menu()
 
-        elif total_proheart2 >= 13 and end_meet_pro2 >= 5:
+        elif total_proheart2 >= 25 and end_meet_pro2 >= 5:
              print_slow("김교수님 : 크흠, 오늘 수업은 여기까지 할게(손목에 찬 시계를 보며)  앞 분반보다 30분이나 빨리 끝났네. 질문 있는 사람? (/▽＼)\n\n")
              print("________________________선 택 창________________________\n")
              print("|                                                      |\n")
@@ -1309,19 +1377,25 @@ def professor2():
              choice = input("어떤 대답을 할까? :\n")
              if choice == '1':
                 print_slow("김교수님 : 준영아 일본어로 대답하면 교수님은 못 알아듣는단다 ㅠ (/▽＼)\n")
+                print("\n")  
                 print_slow(" (┬┬﹏┬┬) 당황하신 것 같다\n")
+                print("\n")  
                 print_slow("준영이는 방을 나왔다 \n")
                 print("\n")
                 like1 = proheart1()
                 total_proheart2 -= like1
                 print_slow(f"김교수님의 호감도가 {like1} 내려가서 {total_proheart2}가 되었다 (┬┬﹏┬┬) \n")
+                print("\n")  
                 print_slow("돌아가는 중. . .\n")
                 time.sleep(1)
                 main_menu()
              elif choice == '2':
                 print_slow("김교수님 : 응? 선생님이 아니라 교수님이라고 해야지. 여튼 교수님은 '리제로'라는 애니메이션 좋아한단다. 흐흐...\"\n")
+                print("\n")  
                 print_slow("그 중에서도 '렘'을 가장 좋아하지. (^▽^*))))  렘은 말이지... (중략) \n")   
+                print("\n")  
                 print_slow("（ヽ(*。>Д<)o゜매우 수줍어하시는 듯 하다\n")
+                print("\n")  
                 like1 = proheart1()
                 total_proheart2 += like1
                 print_slow(f"김교수님의 호감도가 {like1} 올라서 {total_proheart2}가 되었다 ! (｡･∀･)ﾉﾞ)\n")
@@ -1333,7 +1407,7 @@ def professor2():
                 print_slow("진짜 그럴거에요?\n")
                 main_menu()
 
-        elif total_proheart2 >= 11 and end_meet_pro2 >= 5:
+        elif total_proheart2 >= 21 and end_meet_pro2 >= 5:
              print_slow("김교수님 : 자. 깜짝퀴즈다. 죽지 않는 산맥을 뭐라고 할까?  \n\n")
              print("__________________________선 택 창___________________________\n")
              print("|                                                           |\n")
@@ -1345,18 +1419,24 @@ def professor2():
 
              choice = input("어떤 대답을 할까? :\n")
              if choice == '1':
-                print_slow("김교수님 : 틀렸어. 정답은 바로 안데스 산맥이야. 안 death 산맥.. 껄껄 \"\n")   
+                print_slow("김교수님 : 틀렸어. 정답은 바로 안데스 산맥이야. 안 death 산맥.. 껄껄 \"\n") 
+                print("\n")    
                 print_slow("（ヽ(*。>Д<)o゜흐뭇하신 표정이다 \n")
+                print("\n")  
                 print_slow("준영이는 방을 나왔다 \n")
+                print("\n")  
                 like1 = proheart1()
                 total_proheart2 -= like1
                 print_slow(f"김교수님의 호감도가 {like1} 내려가서 {total_proheart2}가 되었다 (┬┬﹏┬┬) \n")
+                print("\n")  
                 print_slow("돌아가는 중. . .\n")
                 time.sleep(1)
                 main_menu()
              elif choice == '2':
                 print_slow("김교수님 : 정답이야. 준영아 너 아재개그에 소질있는데? 교수님이랑 얘기좀 하자.. 껄껄 (｡･∀･)ﾉﾞ)\n")
+                print("\n")  
                 print_slow("（ヽ(*。>Д<)o゜매우 뿌듯해하신다...\n")
+                print("\n")  
                 print_slow("준영이는 방을 나왔다 \n")
                 print("\n")
                 like1 = proheart1()
@@ -1370,7 +1450,7 @@ def professor2():
                 print_slow("진짜 그럴거에요?\n")
                 main_menu()
 
-        elif total_proheart2 >= 9 and end_meet_pro2 >= 4:
+        elif total_proheart2 >= 17 and end_meet_pro2 >= 4:
              print_slow("김교수님 : 준영아 요즘 잘 안보이네? 과방에도 없고 말이야. (/▽＼) \n\n")
              print("________________________선 택 창__________________________\n")
              print("|                                                        |\n")
@@ -1384,10 +1464,13 @@ def professor2():
              choice = input("어떤 대답을 할까? :\n")
              if choice == '1':
                 print_slow("김교수님 : 어머... 그렇구나 미안해 (ToT)/~~~.\n")
+                print("\n")  
                 print_slow("（ヽ(*。>Д<)o゜교수님은 상처를 받으신거 같다...\n")
+                print("\n")  
                 like1 = proheart1()
                 total_proheart2 -= like1
                 print_slow(f"김교수님의 호감도가 {like1} 내려가서 {total_proheart2}가 되었다 (┬┬﹏┬┬) \n")
+                print("\n")  
                 print_slow("돌아가는 중. . .\n")
                 time.sleep(1)
                 main_menu()
@@ -1415,7 +1498,7 @@ def professor2():
                 print_slow("진짜 그럴거에요?\n")
                 main_menu()
 
-        elif total_proheart1 >= 7 and end_meet_pro1 >= 4:
+        elif total_proheart1 >= 13 and end_meet_pro1 >= 4:
              print_slow("김교수님 : 아 준영아 안녕. 파이썬은 어때. 할 만 하지 ? o(*￣▽￣*)ブ)\n\n")
              print("________________________선 택 창__________________________\n")
              print("|                                                        |\n")
@@ -1427,10 +1510,13 @@ def professor2():
              choice = input("어떤 대답을 할까? :\n")
              if choice == '1':
                 print_slow("김교수님 : 솔직하지 못하구나. 그럼 못쓰지 에잉 쯧.. (；′⌒`)\"\n")
+                print("\n")  
                 print_slow("（ヽ(*。>Д<)o゜교수님꼐서 화가 나신듯하다.. \n")
+                print("\n")  
                 like1 = proheart1()
                 total_proheart2 -= like1
                 print_slow(f"김교수님의 호감도가 {like1} 내려가서 {total_proheart2}가 되었다 (┬┬﹏┬┬) \n")
+                print("\n")  
                 print_slow("돌아가는 중. . .\n")
                 time.sleep(1)
                 main_menu()
@@ -1450,7 +1536,7 @@ def professor2():
                 print_slow("진짜 그럴거에요?\n")
                 main_menu()
 
-        elif total_proheart2 >= 5 and end_meet_pro2 >= 3:
+        elif total_proheart2 >= 9 and end_meet_pro2 >= 3:
              print_slow("김교수님 : 아 준영아 왔니? 저번에는 바빠서 미안하구나 (/▽＼) \n\n")
              print("________________________선 택 창__________________________\n")
              print("|                                                        |\n")
@@ -1463,10 +1549,13 @@ def professor2():
              choice = input("어떤 대답을 할까? :\n")
              if choice == '1':
                 print_slow("김교수님 : 그, 그래? 허허... (•_•).\"\n")
+                print("\n")  
                 print_slow("（ヽ(*。>Д<)o゜교수님은 부담감을 느끼신다...\n")
+                print("\n")  
                 like1 = proheart1()
                 total_proheart2 -= like1
                 print_slow(f"김교수님의 호감도가 {like1} 내려가서 {total_proheart2}가 되었다 (┬┬﹏┬┬) \n")
+                print("\n")  
                 print_slow("돌아가는 중. . .\n")
                 time.sleep(1)
                 main_menu()
@@ -1486,7 +1575,7 @@ def professor2():
                 print_slow("진짜 그럴거에요?\n")
                 main_menu()
 
-        elif total_proheart2 >= 3 and end_meet_pro2 >= 3:
+        elif total_proheart2 >= 5 and end_meet_pro2 >= 3:
              print_slow("김교수님 : 어 준영아 왔니. 그런데 내가 지금 바빠서 잠시 기다려줄래? (；′⌒`) ?\n\n")
              print("________________________선 택 창__________________________\n")
              print("|                                                        |\n")
@@ -1498,10 +1587,13 @@ def professor2():
              choice = input("어떤 대답을 할까? :\n")
              if choice == '2':
                 print_slow("김교수님 : 아잇... 참 자꾸 그럴래? (•_•).\"\n")
+                print("\n")  
                 print_slow("（ヽ(*。>Д<)o゜어색한 침묵이 흐른다...\n")
+                print("\n")  
                 like1 = proheart1()
                 total_proheart2 -= like1
                 print_slow(f"김교수님의 호감도가 {like1} 내려가서 {total_proheart2}가 되었다 (┬┬﹏┬┬) \n")
+                print("\n")  
                 print_slow("돌아가는 중. . .\n")
                 time.sleep(1)
                 main_menu()
@@ -1533,10 +1625,13 @@ def professor2():
              choice = input("어떤 대답을 할까? :\n")
              if choice == '2':
                 print_slow("김교수님 : 그러니? 흠... 좀 부담스럽구나... 다음에 보자 (•_•).\"\n")
+                print("\n")  
                 print_slow("（ヽ(*。>Д<)o゜쫓겨났다...\n")
+                print("\n")  
                 like1 = proheart1()
                 total_proheart2 -= like1
                 print_slow(f"김교수님의 호감도가 {like1} 내려가서 {total_proheart2}가 되었다 (┬┬﹏┬┬) \n")
+                print("\n")  
                 print_slow("돌아가는 중. . .\n")
                 time.sleep(1)
                 main_menu()
@@ -1609,9 +1704,9 @@ def professor2():
         
     #자판기 메뉴
 def store():
-    clear()
     global total_money, total_brain, total_code, total_health, total_stress
-    
+    clear()
+
     if total_money >= 5:
         move_cursor(0,5)
         print_slow(" 무엇을 마시던 상상이상!! 구매하지 않으면 불행이 옵니다.\n")
