@@ -394,13 +394,16 @@ def schedule_UpDown():
         year += 1 
         month = 3 
 
-    #생일 
-    if month == 3:
-        birthday()
 
     #등록금
     if month == 9 or month == 3:
         tuition()
+
+
+    #생일 
+    if month == 3:
+        birthday()
+
     
     #시험 
     if month == 6 or month  == 12:
@@ -412,9 +415,9 @@ def schedule_UpDown():
 #등록금 함수
 def tuition():
 
-    if total_money >= 10:
-        money(-10)
-        print_slow("벌써 한 학기가 지났네요...  등록금 10원이 차감됩니다 !\n\n")
+    if total_money >= 15:
+        money(-15)
+        print_slow("벌써 한 학기가 지났네요...  등록금 15원이 차감됩니다 !\n\n")
         time.sleep(1)
     elif total_money < 10:   
         print_slow("등록금을 낼 돈이 부족해요. 이러면 학교를 다닐 수 없어. . .")
@@ -431,20 +434,18 @@ def birthday():
     print("| > 1. 두툼한 돈봉투 (꽤 되는 것 같다)   |\n")
     print("|                                        |\n")
     print("| > 2. 엄마가 차려준 미역국              |\n")
-    print("|                                        |\n")
-    print("| > 3. 최신 게이밍 노트북                |\n")
     print("|________________________________________|")
     print("\n")
 
     choice = int(input("어떤 선물을 받을까? "))
     if choice == 1:
-        print_slow("얼만지 한 번 볼까? \n")
-        print_slow("와.. 10원이나 들어있네!\n")
+        print_slow("얼만지 한 번 볼까 ? \n")
+        print_slow("봉투 안에는 무려 10원이나 들어있었다 (/▽＼)\n")
         print_slow("준영이는 10원을 획득하였다 (*^▽^*)\n")
         money(10)
     elif choice == 2:
         print_slow("얼마만의 미역국인가 ㅠㅠ \n")
-        print_slow("내가 먹고 있는 게 눈물인지 미역국인지 구분이 안간다\n")
+        print_slow("내가 먹고 있는 게 눈물인지 미역국인지 구분이 안간다..\n")
         print_slow("피로가 싹 내려가는 맛이다 (/▽＼)\n")
         print_slow("준영이의 스트레스가 10 내렸다 (*^▽^*)\n")
         stress(-10)
@@ -536,8 +537,11 @@ def money_RandomUp():
 #스탯 랜덤 감소
 def brain_RandomDown():
     global total_brain
-    if 0 <= total_brain <=999:
-        minus = random.randint(-4,-1)
+    minus = random.randint(-3,-1)
+    if total_brain + minus < 0:
+        fix_money()
+        return minus
+    elif total_brain + minus >= 0:
         total_brain += minus
         return minus
     
@@ -583,6 +587,11 @@ def money_RandomDown():
 def fix_money():
     global total_money
     total_money = 0
+
+    #지능이 0 이하로 내려가지 않게 하는 코드
+def fix_brain():
+    global total_brain
+    total_brain = 0
 
 #스탯 증감들
 def brain(amount):
